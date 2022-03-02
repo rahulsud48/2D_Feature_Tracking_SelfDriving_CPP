@@ -20,8 +20,8 @@ struct CSVInfo{
     
 };
 
-struc DetectorInfo {
-    int nKeypoints,
+struct DetectorInfo {
+    int nKeypoints;
     double time;
 }
 
