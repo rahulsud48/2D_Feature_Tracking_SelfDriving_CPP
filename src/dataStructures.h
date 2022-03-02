@@ -16,9 +16,14 @@ struct DataFrame { // represents the available sensor information at the same ti
 
 struct CSVInfo{
     std::string detectorType, descriptorType, matcherType, selectorType;
-    int imageNum, nKeypoints;
-    double time;
+    int imageNum;
+    
 };
+
+struc DetectorInfo {
+    int nKeypoints,
+    double time;
+}
 
 
 #endif /* dataStructures_h */

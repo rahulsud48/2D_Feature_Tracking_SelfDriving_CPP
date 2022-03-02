@@ -1,6 +1,6 @@
 #include <numeric>
 #include "matching2D.hpp"
-
+#include "dataStructures.h"
 using namespace std;
 
 // Find best matches for keypoints in two camera images based on several matching methods
@@ -101,8 +101,9 @@ void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descr
 }
 
 // Detect keypoints in image using the traditional Shi-Thomasi detector
-void detKeypointsShiTomasi(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis)
+DetectorInfo detKeypointsShiTomasi(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis)
 {
+    DetectorInfo dectInfo;
     // compute detector parameters based on image size
     int blockSize = 4;       //  size of an average block for computing a derivative covariation matrix over each pixel neighborhood
     double maxOverlap = 0.0; // max. permissible overlap between two features in %
@@ -139,10 +140,15 @@ void detKeypointsShiTomasi(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool b
         imshow(windowName, visImage);
         cv::waitKey(0);
     }
+    dectInfo.nKeypoints = keypoints.size();
+    dectInfo.time = t;
+
+    return dectInfo;
 }
 
-void detKeypointsHarris(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis)
+DetectorInfo detKeypointsHarris(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis)
 {
+    DetectorInfo dectInfo;
     // compute detector parameters based on image size
     int blockSize = 2;       
     int apertureSize = 3; 
@@ -192,6 +198,7 @@ void detKeypointsHarris(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis
                 if (!foundOverlap) { keypoints.push_back(point); }
             }
         }
+
     }
 
 
@@ -208,11 +215,16 @@ void detKeypointsHarris(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis
         imshow(windowName, visImage);
         cv::waitKey(0);
     }
+    dectInfo.nKeypoints = keypoints.size();
+    dectInfo.time = t;
+
+    return dectInfo;
 }
 
 
-void detKeypointsModern(vector<cv::KeyPoint> &keypoints, cv::Mat &img, std::string detectorType, bool bVis)
+DetectorInfo detKeypointsModern(vector<cv::KeyPoint> &keypoints, cv::Mat &img, std::string detectorType, bool bVis)
 {
+    DetectorInfo dectInfo;
     cv::Ptr<cv::FeatureDetector> detector;
     if (detectorType.compare("FAST") == 0) {
         cv::FastFeatureDetector::DetectorType type = cv::FastFeatureDetector::TYPE_9_16;
@@ -250,4 +262,8 @@ void detKeypointsModern(vector<cv::KeyPoint> &keypoints, cv::Mat &img, std::stri
         imshow(windowName, visImage);
         cv::waitKey(0);
     }
+    dectInfo.nKeypoints = keypoints.size();
+    dectInfo.time = t;
+
+    return dectInfo;
 }
