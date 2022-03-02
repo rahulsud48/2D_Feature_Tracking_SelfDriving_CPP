@@ -23,7 +23,8 @@ struct CSVInfo{
 struct DetectorInfo {
     int nKeypoints;
     double time;
-}
+    DetectorInfo() {}
+};
 
 
 #endif /* dataStructures_h */

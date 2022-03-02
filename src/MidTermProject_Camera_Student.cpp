@@ -80,7 +80,7 @@ int main(int argc, const char *argv[])
         /* DETECT IMAGE KEYPOINTS */
 
         // extract 2D keypoints from current image
-        for (std:detectorType : detectorTypes)
+        for (std::string detectorType : detectorTypes)
         {
             vector<cv::KeyPoint> keypoints; // create empty feature list for current image
             // string detectorType = "AKAZE";
@@ -91,16 +91,16 @@ int main(int argc, const char *argv[])
             DetectorInfo detcInfo;
             if (detectorType.compare("SHITOMASI") == 0)
             {
-                detcInfo = detKeypointsShiTomasi(keypoints, imgGray, false);
+                detKeypointsShiTomasi(keypoints, imgGray, false, detcInfo);
             }
             else if (detectorType.compare("HARRIS") == 0)
             {
-                detcInfo = detKeypointsHarris(keypoints, imgGray, false);
+                detKeypointsHarris(keypoints, imgGray, false, detcInfo);
             }
 
             else
             {
-                detcInfo = detKeypointsModern(keypoints, imgGray, detectorType, false);
+                detKeypointsModern(keypoints, imgGray, detectorType, false, detcInfo);
             }
             //// EOF STUDENT ASSIGNMENT
 
@@ -148,7 +148,7 @@ int main(int argc, const char *argv[])
             //// -> BRIEF, ORB, FREAK, AKAZE, SIFT
 
             cv::Mat descriptors;
-            for (descriptorType : descriptorTypes)
+            for (std::string descriptorType : descriptorTypes)
             {
                 // string descriptorType = "AKAZE"; // BRIEF, ORB, FREAK, AKAZE, SIFT
                 descKeypoints((dataBuffer.end() - 1)->keypoints, (dataBuffer.end() - 1)->cameraImg, descriptors, descriptorType);

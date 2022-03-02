@@ -101,9 +101,9 @@ void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descr
 }
 
 // Detect keypoints in image using the traditional Shi-Thomasi detector
-DetectorInfo detKeypointsShiTomasi(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis)
+void detKeypointsShiTomasi(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis, DetectorInfo &dectInfo)
 {
-    DetectorInfo dectInfo;
+    // DetectorInfo dectInfo;
     // compute detector parameters based on image size
     int blockSize = 4;       //  size of an average block for computing a derivative covariation matrix over each pixel neighborhood
     double maxOverlap = 0.0; // max. permissible overlap between two features in %
@@ -143,12 +143,12 @@ DetectorInfo detKeypointsShiTomasi(vector<cv::KeyPoint> &keypoints, cv::Mat &img
     dectInfo.nKeypoints = keypoints.size();
     dectInfo.time = t;
 
-    return dectInfo;
+    // return dectInfo;
 }
 
-DetectorInfo detKeypointsHarris(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis)
+void detKeypointsHarris(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis, DetectorInfo &dectInfo)
 {
-    DetectorInfo dectInfo;
+    // DetectorInfo dectInfo;
     // compute detector parameters based on image size
     int blockSize = 2;       
     int apertureSize = 3; 
@@ -218,13 +218,13 @@ DetectorInfo detKeypointsHarris(vector<cv::KeyPoint> &keypoints, cv::Mat &img, b
     dectInfo.nKeypoints = keypoints.size();
     dectInfo.time = t;
 
-    return dectInfo;
+    // return dectInfo;
 }
 
 
-DetectorInfo detKeypointsModern(vector<cv::KeyPoint> &keypoints, cv::Mat &img, std::string detectorType, bool bVis)
+void detKeypointsModern(vector<cv::KeyPoint> &keypoints, cv::Mat &img, std::string detectorType, bool bVis, DetectorInfo &dectInfo)
 {
-    DetectorInfo dectInfo;
+    // DetectorInfo dectInfo;
     cv::Ptr<cv::FeatureDetector> detector;
     if (detectorType.compare("FAST") == 0) {
         cv::FastFeatureDetector::DetectorType type = cv::FastFeatureDetector::TYPE_9_16;
@@ -265,5 +265,5 @@ DetectorInfo detKeypointsModern(vector<cv::KeyPoint> &keypoints, cv::Mat &img, s
     dectInfo.nKeypoints = keypoints.size();
     dectInfo.time = t;
 
-    return dectInfo;
+    // return dectInfo;
 }
