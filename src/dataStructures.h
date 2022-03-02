@@ -14,5 +14,11 @@ struct DataFrame { // represents the available sensor information at the same ti
     std::vector<cv::DMatch> kptMatches; // keypoint matches between previous and current frame
 };
 
+struct CSVInfo{
+    std::string detectorType, descriptorType, matcherType, selectorType;
+    int imageNum, nKeypoints;
+    double time;
+};
+
 
 #endif /* dataStructures_h */
