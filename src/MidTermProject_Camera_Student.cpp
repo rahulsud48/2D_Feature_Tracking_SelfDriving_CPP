@@ -43,8 +43,8 @@ int main(int argc, const char *argv[])
     /* MAIN LOOP OVER ALL IMAGES */
     std::vector<CSVInfo> csv_info;
 
-    std::vector<std::string> detectorTypes{ "SHITOMASI", "HARRIS", "FAST", "BRISK", "ORB", "SIFT" };
-    std::vector<std::string> descriptorTypes{ "BRISK", "BRIEF", "ORB", "FREAK", "SIFT" };
+    std::vector<std::string> detectorTypes{ "SHITOMASI", "HARRIS", "FAST", "BRISK", "ORB" };
+    std::vector<std::string> descriptorTypes{ "BRISK", "BRIEF", "ORB", "FREAK" };
     // std::vector<std::string> matcherTypes{ "MAT_BF" };
     // std::vector<std::string> selectorTypes{ "SEL_KNN" };
 

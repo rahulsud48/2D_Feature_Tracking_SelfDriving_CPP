@@ -73,11 +73,11 @@ void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descr
         extractor = cv::AKAZE::create();
 
     } 
-    else if (descriptorType.compare("SIFT") == 0) 
-    {
-        extractor = cv::xfeatures2d::SIFT::create();
+    // else if (descriptorType.compare("SIFT") == 0) 
+    // {
+    //     extractor = cv::xfeatures2d::SIFT::create();
 
-    } 
+    // } 
     else if (descriptorType.compare("BRIEF") == 0) 
     {
         extractor = cv::xfeatures2d::BriefDescriptorExtractor::create();
@@ -239,10 +239,10 @@ void detKeypointsModern(vector<cv::KeyPoint> &keypoints, cv::Mat &img, std::stri
     } else if (detectorType.compare("AKAZE") == 0) {
         detector = cv::AKAZE::create();
 
-    } else if (detectorType.compare("SIFT") == 0) {
-        detector = cv::xfeatures2d::SIFT::create();
+    // } else if (detectorType.compare("SIFT") == 0) {
+    //     detector = cv::xfeatures2d::SIFT::create();
 
-    }
+    // }
 
     // Apply corner detection
     double t = (double)cv::getTickCount();
