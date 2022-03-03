@@ -43,10 +43,10 @@ int main(int argc, const char *argv[])
     /* MAIN LOOP OVER ALL IMAGES */
     std::vector<CSVInfo> csv_info;
 
-    std::vector<std::string> detectorTypes{ "SHITOMASI", "HARRIS", "FAST", "BRISK", "ORB", "AKAZE",  "SIFT" };
-    std::vector<std::string> descriptorTypes{ "BRISK", "BRIEF", "ORB", "FREAK", "AKAZE", "SIFT" };
-    std::vector<std::string> matcherTypes{ "MAT_BF" };
-    std::vector<std::string> selectorTypes{ "SEL_KNN" };
+    std::vector<std::string> detectorTypes{ "SHITOMASI", "HARRIS", "FAST", "BRISK", "ORB", "SIFT" };
+    std::vector<std::string> descriptorTypes{ "BRISK", "BRIEF", "ORB", "FREAK", "SIFT" };
+    // std::vector<std::string> matcherTypes{ "MAT_BF" };
+    // std::vector<std::string> selectorTypes{ "SEL_KNN" };
 
     for (size_t imgIndex = 0; imgIndex <= imgEndIndex - imgStartIndex; imgIndex++)
     {
@@ -185,7 +185,7 @@ int main(int argc, const char *argv[])
                     cout << "#4 : MATCH KEYPOINT DESCRIPTORS done" << endl;
 
                     // visualize matches between current and previous image
-                    bVis = true;
+                    bVis = false;
                     if (bVis)
                     {
                         cv::Mat matchImg = ((dataBuffer.end() - 1)->cameraImg).clone();
