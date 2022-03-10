@@ -51,7 +51,7 @@ void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::Key
         t = ((static_cast<double>(cv::getTickCount())) - t) / cv::getTickFrequency();
     }
     matchInfo.nKeypoints =  matches.size();
-    matchInfo.time =  t;
+    matchInfo.time =  secondsToMilliseconds(t);
 }
 
 // Use one of several types of state-of-art descriptors to uniquely identify keypoints
@@ -108,7 +108,7 @@ void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descr
     extractor->compute(img, keypoints, descriptors);
     t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
     cout << descriptorType << " descriptor extraction in " << 1000 * t / 1.0 << " ms" << endl;
-    descInfo.time = t;
+    descInfo.time = secondsToMilliseconds(t);
 }
 
 // Detect keypoints in image using the traditional Shi-Thomasi detector
@@ -152,7 +152,7 @@ void detKeypointsShiTomasi(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool b
         cv::waitKey(0);
     }
     dectInfo.nKeypoints = keypoints.size();
-    dectInfo.time = t;
+    dectInfo.time = secondsToMilliseconds(t);
 
     // return dectInfo;
 }
@@ -227,7 +227,7 @@ void detKeypointsHarris(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis
         cv::waitKey(0);
     }
     dectInfo.nKeypoints = keypoints.size();
-    dectInfo.time = t;
+    dectInfo.time = secondsToMilliseconds(t);
 
     // return dectInfo;
 }
@@ -275,7 +275,7 @@ void detKeypointsModern(vector<cv::KeyPoint> &keypoints, cv::Mat &img, std::stri
         cv::waitKey(0);
     }
     dectInfo.nKeypoints = keypoints.size();
-    dectInfo.time = t;
+    dectInfo.time = secondsToMilliseconds(t);
 
     // return dectInfo;
 }
