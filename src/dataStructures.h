@@ -30,8 +30,8 @@ struct CSVInfo{
 };
 
 struct DetectorInfo {
-    int nKeypoints;
-    double time;
+    int nKeypoints = 0;
+    double time = 0.0;
 
     // constructors
     DetectorInfo() : nKeypoints(0), time(0.0) {}

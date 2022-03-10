@@ -50,7 +50,8 @@ void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::Key
 
         t = ((static_cast<double>(cv::getTickCount())) - t) / cv::getTickFrequency();
     }
-    matchInfo.time =  secondsToMilliseconds(t);
+    matchInfo.nKeypoints =  matches.size();
+    matchInfo.time =  t;
 }
 
 // Use one of several types of state-of-art descriptors to uniquely identify keypoints
