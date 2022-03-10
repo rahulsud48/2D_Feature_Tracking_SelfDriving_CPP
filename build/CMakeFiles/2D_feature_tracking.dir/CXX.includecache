@@ -452,11 +452,3 @@ opencv2/xfeatures2d/nonfree.hpp
 dataStructures.h
 /work/2D_Feature_Tracking_SelfDriving_CPP/src/dataStructures.h
 
-/work/2D_Feature_Tracking_SelfDriving_CPP/src/matching2D_Student.cpp
-numeric
--
-matching2D.hpp
-/work/2D_Feature_Tracking_SelfDriving_CPP/src/matching2D.hpp
-dataStructures.h
-/work/2D_Feature_Tracking_SelfDriving_CPP/src/dataStructures.h
-

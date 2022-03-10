@@ -15,15 +15,28 @@ struct DataFrame { // represents the available sensor information at the same ti
 };
 
 struct CSVInfo{
-    std::string detectorType, descriptorType, matcherType, selectorType;
-    int imageNum;
+    const std::string detectorType, descriptorType, matcherType, selectorType;
+
+    std::array<int, 10> ptsPerFrame, matchedPts;
+    std::array<double, 10> detElapsedTime, descElapsedTime, matchElapsedTime;
+
+    // constructors
+    CSVInfo() {}
+
+    CSVInfo(const std::string detType, const std::string descType, const std::string matchType, const std::string selType)
+        : detectorType(detType), descriptorType(descType), matcherType(matchType), selectorType(selType) {
+    }
     
 };
 
 struct DetectorInfo {
     int nKeypoints;
     double time;
-    DetectorInfo() {}
+
+    // constructors
+    DetectorInfo() : nKeypoints(0), time(0.0) {}
+
+    DetectorInfo(int points, double time) : nKeypoints(points), time(time) {}
 };
 
 

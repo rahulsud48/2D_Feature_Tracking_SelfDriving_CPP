@@ -3,49 +3,58 @@
 #include "dataStructures.h"
 using namespace std;
 
-// Find best matches for keypoints in two camera images based on several matching methods
+inline const double secondsToMilliseconds(const double seconds) {
+    return ((1000 * seconds) / 1.0);
+}
+
+
 void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::KeyPoint> &kPtsRef, cv::Mat &descSource, cv::Mat &descRef,
-                      std::vector<cv::DMatch> &matches, std::string descriptorType, std::string matcherType, std::string selectorType)
-{
+                      std::vector<cv::DMatch> &matches, std::string descriptorType, std::string matcherType, std::string selectorType, DetectorInfo& matchInfo) {
+
     // configure matcher
-    bool crossCheck = false;
+    double t;
     cv::Ptr<cv::DescriptorMatcher> matcher;
 
-    if (matcherType.compare("MAT_BF") == 0)
-    {
+    if (matcherType.compare("MAT_BF") == 0) {
+        constexpr bool crossCheck{ false };
+        // const int normType{ ((descriptorFamily.compare("DES_BINARY") == 0) ? cv::NORM_HAMMING : cv::NORM_L2) };
         int normType = cv::NORM_HAMMING;
         matcher = cv::BFMatcher::create(normType, crossCheck);
-    }
-    else if (matcherType.compare("MAT_FLANN") == 0)
-    {
+        std::cout << "BF matching cross-check = " << crossCheck << std::endl;
+
+    } else if (matcherType.compare("MAT_FLANN") == 0) {
         if (descRef.type() != CV_32F) { descRef.convertTo(descRef, CV_32F); }
         if (descSource.type() != CV_32F) { descSource.convertTo(descSource, CV_32F); }
+
         matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
+        std::cout << "FLANN matching" << std::endl;
     }
 
-    // perform matching task
-    if (selectorType.compare("SEL_NN") == 0)
-    { // nearest neighbor (best match)
-
+    if (selectorType.compare("SEL_NN") == 0) {
+        t = static_cast<double>(cv::getTickCount());
         matcher->match(descSource, descRef, matches); // Finds the best match for each descriptor in desc1
-    }
-    else if (selectorType.compare("SEL_KNN") == 0)
-    { // k nearest neighbors (k=2)
+        t = ((static_cast<double>(cv::getTickCount())) - t) / cv::getTickFrequency();
+
+    } else if (selectorType.compare("SEL_KNN") == 0) {
         std::vector<std::vector<cv::DMatch>> knnMatches;
 
+        t = static_cast<double>(cv::getTickCount());
         matcher->knnMatch(descSource, descRef, knnMatches, 2);
-        float threshold = 0.8 ;
+        constexpr float threshold{ 0.8 };
 
         for (auto iterator{ std::begin(knnMatches) }; iterator != std::end(knnMatches); iterator++) {
             if ((*iterator).at(0).distance < (threshold * (*iterator).at(1).distance)) {
                 matches.push_back((*iterator).at(0));
             }
         }
+
+        t = ((static_cast<double>(cv::getTickCount())) - t) / cv::getTickFrequency();
     }
+    matchInfo.time =  secondsToMilliseconds(t);
 }
 
 // Use one of several types of state-of-art descriptors to uniquely identify keypoints
-void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descriptors, string descriptorType)
+void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descriptors, string descriptorType, DetectorInfo& descInfo)
 {
     // select appropriate descriptor
     cv::Ptr<cv::DescriptorExtractor> extractor;
@@ -98,6 +107,7 @@ void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descr
     extractor->compute(img, keypoints, descriptors);
     t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
     cout << descriptorType << " descriptor extraction in " << 1000 * t / 1.0 << " ms" << endl;
+    descInfo.time = t;
 }
 
 // Detect keypoints in image using the traditional Shi-Thomasi detector
@@ -238,11 +248,12 @@ void detKeypointsModern(vector<cv::KeyPoint> &keypoints, cv::Mat &img, std::stri
 
     } else if (detectorType.compare("AKAZE") == 0) {
         detector = cv::AKAZE::create();
+    }
 
-    // } else if (detectorType.compare("SIFT") == 0) {
+    // else if (detectorType.compare("SIFT") == 0) {
     //     detector = cv::xfeatures2d::SIFT::create();
 
-    // }
+
 
     // Apply corner detection
     double t = (double)cv::getTickCount();
